@@ -287,24 +287,28 @@ class LoggerChatModel:
                     if retry_after:
                         wait_time = int(retry_after)
                         logger.warning(
-                            f"Rate limit exceeded. Waiting for {wait_time} seconds before retrying (extracted from 'retry-after' header)..."
+                            f"Rate limit exceeded. Waiting for {wait_time} seconds before retrying (extracted from "
+                            f"'retry-after' header)... "
                         )
                         time.sleep(wait_time)
                     elif retry_after_ms:
                         wait_time = int(retry_after_ms) / 1000.0
                         logger.warning(
-                            f"Rate limit exceeded. Waiting for {wait_time} seconds before retrying (extracted from 'retry-after-ms' header)..."
+                            f"Rate limit exceeded. Waiting for {wait_time} seconds before retrying (extracted from "
+                            f"'retry-after-ms' header)... "
                         )
                         time.sleep(wait_time)
                     else:
                         wait_time = 30
                         logger.warning(
-                            f"'retry-after' header not found. Waiting for {wait_time} seconds before retrying (default)..."
+                            f"'retry-after' header not found. Waiting for {wait_time} seconds before retrying ("
+                            f"default)... "
                         )
                         time.sleep(wait_time)
                 else:
                     logger.error(
-                        f"HTTP error occurred with status code: {e.response.status_code}, waiting 30 seconds before retrying"
+                        f"HTTP error occurred with status code: {e.response.status_code}, waiting 30 seconds before "
+                        f"retrying "
                     )
                     time.sleep(30)
 
