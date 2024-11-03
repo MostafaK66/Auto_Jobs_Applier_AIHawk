@@ -22,6 +22,7 @@ else:
 
 chromeProfilePath = os.path.join(os.getcwd(), "chrome_profile", "linkedin_profile")
 
+
 def ensure_chrome_profile():
     logger.debug(f"Ensuring Chrome profile exists at path: {chromeProfilePath}")
     profile_dir = os.path.dirname(chromeProfilePath)
@@ -38,12 +39,16 @@ def is_scrollable(element):
     scroll_height = element.get_attribute("scrollHeight")
     client_height = element.get_attribute("clientHeight")
     scrollable = int(scroll_height) > int(client_height)
-    logger.debug(f"Element scrollable check: scrollHeight={scroll_height}, clientHeight={client_height}, scrollable={scrollable}")
+    logger.debug(
+        f"Element scrollable check: scrollHeight={scroll_height}, clientHeight={client_height}, scrollable={scrollable}"
+    )
     return scrollable
 
 
 def scroll_slow(driver, scrollable_element, start=0, end=3600, step=300, reverse=False):
-    logger.debug(f"Starting slow scroll: start={start}, end={end}, step={step}, reverse={reverse}")
+    logger.debug(
+        f"Starting slow scroll: start={start}, end={end}, step={step}, reverse={reverse}"
+    )
 
     if reverse:
         start, end = end, start
@@ -64,7 +69,9 @@ def scroll_slow(driver, scrollable_element, start=0, end=3600, step=300, reverse
         logger.debug(f"Adjusted start position for upward scroll: {start}")
     else:
         if end > max_scroll_height:
-            logger.warning(f"End value exceeds the scroll height. Adjusting end to {max_scroll_height}")
+            logger.warning(
+                f"End value exceeds the scroll height. Adjusting end to {max_scroll_height}"
+            )
             end = max_scroll_height
 
     script_scroll_to = "arguments[0].scrollTop = arguments[1];"
@@ -76,19 +83,27 @@ def scroll_slow(driver, scrollable_element, start=0, end=3600, step=300, reverse
                 return
 
             if (step > 0 and start >= end) or (step < 0 and start <= end):
-                logger.warning("No scrolling will occur due to incorrect start/end values.")
+                logger.warning(
+                    "No scrolling will occur due to incorrect start/end values."
+                )
                 return
 
             position = start
-            previous_position = None  # Tracking the previous position to avoid duplicate scrolls
+            previous_position = (
+                None  # Tracking the previous position to avoid duplicate scrolls
+            )
             while (step > 0 and position < end) or (step < 0 and position > end):
                 if position == previous_position:
                     # Avoid re-scrolling to the same position
-                    logger.debug(f"Stopping scroll as position hasn't changed: {position}")
+                    logger.debug(
+                        f"Stopping scroll as position hasn't changed: {position}"
+                    )
                     break
 
                 try:
-                    driver.execute_script(script_scroll_to, scrollable_element, position)
+                    driver.execute_script(
+                        script_scroll_to, scrollable_element, position
+                    )
                     logger.debug(f"Scrolled to position: {position}")
                 except Exception as e:
                     logger.error(f"Error during scrolling: {e}")
@@ -133,7 +148,9 @@ def chrome_browser_options():
     options.add_argument("--disable-plugins")
     options.add_argument("--disable-animations")
     options.add_argument("--disable-cache")
-    options.add_experimental_option("excludeSwitches", ["enable-automation", "enable-logging"])
+    options.add_experimental_option(
+        "excludeSwitches", ["enable-automation", "enable-logging"]
+    )
 
     prefs = {
         "profile.default_content_setting_values.images": 2,
@@ -144,7 +161,7 @@ def chrome_browser_options():
     if len(chromeProfilePath) > 0:
         initial_path = os.path.dirname(chromeProfilePath)
         profile_dir = os.path.basename(chromeProfilePath)
-        options.add_argument('--user-data-dir=' + initial_path)
+        options.add_argument("--user-data-dir=" + initial_path)
         options.add_argument("--profile-directory=" + profile_dir)
         logger.debug(f"Using Chrome profile directory: {chromeProfilePath}")
     else:

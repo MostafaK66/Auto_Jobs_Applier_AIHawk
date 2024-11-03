@@ -1,6 +1,7 @@
 import pytest
 from src.job_application_profile import JobApplicationProfile
 
+
 @pytest.fixture
 def valid_yaml():
     """Valid YAML string for initializing JobApplicationProfile."""
@@ -41,6 +42,7 @@ def valid_yaml():
       salary_range_usd: "80000-120000"
     """
 
+
 @pytest.fixture
 def missing_field_yaml():
     """YAML string missing a required field (self_identification)."""
@@ -74,6 +76,7 @@ def missing_field_yaml():
     salary_expectations:
       salary_range_usd: "80000-120000"
     """
+
 
 @pytest.fixture
 def invalid_type_yaml():
@@ -115,6 +118,7 @@ def invalid_type_yaml():
       salary_range_usd: "80000-120000"
     """
 
+
 def test_initialize_with_valid_yaml(valid_yaml):
     """Test initializing JobApplicationProfile with valid YAML."""
     profile = JobApplicationProfile(valid_yaml)
@@ -127,11 +131,13 @@ def test_initialize_with_valid_yaml(valid_yaml):
     assert profile.availability.notice_period == "2 weeks"
     assert profile.salary_expectations.salary_range_usd == "80000-120000"
 
+
 def test_initialize_with_missing_field(missing_field_yaml):
     """Test initializing JobApplicationProfile with missing required fields."""
     with pytest.raises(KeyError) as excinfo:
         JobApplicationProfile(missing_field_yaml)
     assert "self_identification" in str(excinfo.value)
+
 
 def test_initialize_with_invalid_yaml():
     """Test initializing JobApplicationProfile with invalid YAML."""
@@ -170,6 +176,7 @@ def test_initialize_with_invalid_yaml():
 
     with pytest.raises(TypeError):
         JobApplicationProfile(invalid_yaml_str)
+
 
 def test_str_representation(valid_yaml):
     """Test the string representation of JobApplicationProfile."""

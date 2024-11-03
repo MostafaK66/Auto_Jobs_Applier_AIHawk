@@ -31,7 +31,9 @@ class Job:
         """
         Formats the job information as a markdown string.
         """
-        logger.debug(f"Formatting job information for job: {self.title} at {self.company}")
+        logger.debug(
+            f"Formatting job information for job: {self.title} at {self.company}"
+        )
         job_information = f"""
         # Job Description
         ## Job Information 

@@ -27,23 +27,23 @@ def easy_applier(mock_driver, mock_gpt_answerer, mock_resume_generator_manager):
     return AIHawkEasyApplier(
         driver=mock_driver,
         resume_dir="/path/to/resume",
-        set_old_answers=[('Question 1', 'Answer 1', 'Type 1')],
+        set_old_answers=[("Question 1", "Answer 1", "Type 1")],
         gpt_answerer=mock_gpt_answerer,
-        resume_generator_manager=mock_resume_generator_manager
+        resume_generator_manager=mock_resume_generator_manager,
     )
 
 
 def test_initialization(mocker, easy_applier):
     """Test that AIHawkEasyApplier is initialized correctly."""
     # Mock os.path.exists to return True
-    mocker.patch('os.path.exists', return_value=True)
+    mocker.patch("os.path.exists", return_value=True)
 
     easy_applier = AIHawkEasyApplier(
         driver=mocker.Mock(),
         resume_dir="/path/to/resume",
-        set_old_answers=[('Question 1', 'Answer 1', 'Type 1')],
+        set_old_answers=[("Question 1", "Answer 1", "Type 1")],
         gpt_answerer=mocker.Mock(),
-        resume_generator_manager=mocker.Mock()
+        resume_generator_manager=mocker.Mock(),
     )
 
     assert easy_applier.resume_path == "/path/to/resume"
@@ -57,7 +57,7 @@ def test_apply_to_job_success(mocker, easy_applier):
     mock_job = mock.Mock()
 
     # Mock job_apply so we don't actually try to apply
-    mocker.patch.object(easy_applier, 'job_apply')
+    mocker.patch.object(easy_applier, "job_apply")
 
     easy_applier.apply_to_job(mock_job)
     easy_applier.job_apply.assert_called_once_with(mock_job)
@@ -66,8 +66,7 @@ def test_apply_to_job_success(mocker, easy_applier):
 def test_apply_to_job_failure(mocker, easy_applier):
     """Test failure while applying to a job."""
     mock_job = mock.Mock()
-    mocker.patch.object(easy_applier, 'job_apply',
-                        side_effect=Exception("Test error"))
+    mocker.patch.object(easy_applier, "job_apply", side_effect=Exception("Test error"))
 
     with pytest.raises(Exception, match="Test error"):
         easy_applier.apply_to_job(mock_job)
@@ -90,7 +89,9 @@ def test_check_for_premium_redirect_with_redirect(mocker, easy_applier):
     easy_applier.driver.current_url = "https://www.linkedin.com/premium"
     mock_job.link = "https://www.linkedin.com/jobs/view/1234"
 
-    with pytest.raises(Exception, match="Redirected to AIHawk Premium page and failed to return"):
+    with pytest.raises(
+        Exception, match="Redirected to AIHawk Premium page and failed to return"
+    ):
         easy_applier.check_for_premium_redirect(mock_job)
 
     # Verify that it attempted to return to the job page 3 times

@@ -20,7 +20,9 @@ class AIHawkBotState:
         for key in required_keys:
             if not getattr(self, key):
                 logger.error(f"State validation failed: {key} is not set")
-                raise ValueError(f"{key.replace('_', ' ').capitalize()} must be set before proceeding.")
+                raise ValueError(
+                    f"{key.replace('_', ' ').capitalize()} must be set before proceeding."
+                )
         logger.debug("State validation passed")
 
 
@@ -45,8 +47,9 @@ class AIHawkBotFacade:
         self.state.job_application_profile_set = True
         logger.debug("Job application profile and resume set successfully")
 
-
-    def set_gpt_answerer_and_resume_generator(self, gpt_answerer_component, resume_generator_manager):
+    def set_gpt_answerer_and_resume_generator(
+        self, gpt_answerer_component, resume_generator_manager
+    ):
         logger.debug("Setting GPT answerer and resume generator")
         self._ensure_job_profile_and_resume_set()
         gpt_answerer_component.set_job_application_profile(self.job_application_profile)
@@ -67,20 +70,34 @@ class AIHawkBotFacade:
 
     def start_login(self):
         logger.debug("Starting login process")
-        self.state.validate_state(['credentials_set'])
+        self.state.validate_state(["credentials_set"])
         self.login_component.start()
         self.state.logged_in = True
         logger.debug("Login process completed successfully")
 
     def start_apply(self):
         logger.debug("Starting apply process")
-        self.state.validate_state(['logged_in', 'job_application_profile_set', 'gpt_answerer_set', 'parameters_set'])
+        self.state.validate_state(
+            [
+                "logged_in",
+                "job_application_profile_set",
+                "gpt_answerer_set",
+                "parameters_set",
+            ]
+        )
         self.apply_component.start_applying()
         logger.debug("Apply process started successfully")
-        
+
     def start_collect_data(self):
         logger.debug("Starting collecting data process")
-        self.state.validate_state(['logged_in', 'job_application_profile_set', 'gpt_answerer_set', 'parameters_set'])
+        self.state.validate_state(
+            [
+                "logged_in",
+                "job_application_profile_set",
+                "gpt_answerer_set",
+                "parameters_set",
+            ]
+        )
         self.apply_component.start_collecting_data()
         logger.debug("Collecting data process started successfully")
 
@@ -95,5 +112,7 @@ class AIHawkBotFacade:
         logger.debug("Ensuring job profile and resume are set")
         if not self.state.job_application_profile_set:
             logger.error("Job application profile and resume are not set")
-            raise ValueError("Job application profile and resume must be set before proceeding.")
+            raise ValueError(
+                "Job application profile and resume must be set before proceeding."
+            )
         logger.debug("Job profile and resume are set")
