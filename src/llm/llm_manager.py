@@ -6,20 +6,19 @@ import time
 from abc import ABC, abstractmethod
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List
-from typing import Union
+from typing import Dict, List, Union
 
 import httpx
-from Levenshtein import distance
 from dotenv import load_dotenv
 from langchain_core.messages import BaseMessage
 from langchain_core.messages.ai import AIMessage
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompt_values import StringPromptValue
 from langchain_core.prompts import ChatPromptTemplate
+from Levenshtein import distance
+from loguru import logger
 
 import src.strings as strings
-from loguru import logger
 
 load_dotenv()
 
@@ -74,11 +73,8 @@ class OllamaModel(AIModel):
 # gemini doesn't seem to work because API doesn't rstitute answers for questions that involve answers that are too short
 class GeminiModel(AIModel):
     def __init__(self, api_key: str, llm_model: str):
-        from langchain_google_genai import (
-            ChatGoogleGenerativeAI,
-            HarmBlockThreshold,
-            HarmCategory,
-        )
+        from langchain_google_genai import (ChatGoogleGenerativeAI,
+                                            HarmBlockThreshold, HarmCategory)
 
         self.model = ChatGoogleGenerativeAI(
             model=llm_model,
@@ -105,7 +101,7 @@ class GeminiModel(AIModel):
 
 class HuggingFaceModel(AIModel):
     def __init__(self, api_key: str, llm_model: str):
-        from langchain_huggingface import HuggingFaceEndpoint, ChatHuggingFace
+        from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
 
         self.model = HuggingFaceEndpoint(
             repo_id=llm_model, huggingfacehub_api_token=api_key, temperature=0.4

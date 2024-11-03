@@ -1,17 +1,14 @@
 # tests/test_utils.py
-import pytest
 import os
 import time
 from unittest import mock
+
+import pytest
 from selenium.webdriver.remote.webelement import WebElement
-from src.utils import (
-    ensure_chrome_profile,
-    is_scrollable,
-    scroll_slow,
-    chrome_browser_options,
-    printred,
-    printyellow,
-)
+
+from src.utils import (chrome_browser_options, ensure_chrome_profile,
+                       is_scrollable, printred, printyellow, scroll_slow)
+
 
 # Mocking logging to avoid actual file writing
 @pytest.fixture(autouse=True)

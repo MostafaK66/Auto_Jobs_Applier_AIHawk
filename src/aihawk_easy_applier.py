@@ -5,13 +5,14 @@ import random
 import re
 import time
 import traceback
-from typing import List, Optional, Any, Tuple
+from typing import Any, List, Optional, Tuple
 
 from httpx import HTTPStatusError
+from loguru import logger
 from reportlab.lib.pagesizes import A4
+from reportlab.pdfbase.pdfmetrics import stringWidth
 from reportlab.pdfgen import canvas
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
-from reportlab.pdfbase.pdfmetrics import stringWidth
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -20,7 +21,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
 import src.utils as utils
-from loguru import logger
 
 
 class AIHawkEasyApplier:

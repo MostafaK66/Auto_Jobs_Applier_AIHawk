@@ -1,18 +1,14 @@
 import random
 import time
 
-from selenium.common.exceptions import (
-    NoSuchElementException,
-    TimeoutException,
-    NoAlertPresentException,
-    TimeoutException,
-    UnexpectedAlertPresentException,
-)
+from loguru import logger
+from selenium.common.exceptions import (NoAlertPresentException,
+                                        NoSuchElementException,
+                                        TimeoutException,
+                                        UnexpectedAlertPresentException)
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-
-from loguru import logger
 
 
 class AIHawkAuthenticator:

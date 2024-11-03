@@ -4,8 +4,8 @@ import random
 import sys
 import time
 
-from selenium import webdriver
 from loguru import logger
+from selenium import webdriver
 
 from app_config import MINIMUM_LOG_LEVEL
 

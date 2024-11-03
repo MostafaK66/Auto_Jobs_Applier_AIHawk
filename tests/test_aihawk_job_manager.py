@@ -1,11 +1,13 @@
-from src.job import Job
-from unittest import mock
-from pathlib import Path
 import os
+from pathlib import Path
+from unittest import mock
+
 import pytest
-from src.aihawk_job_manager import AIHawkJobManager
-from selenium.common.exceptions import NoSuchElementException
 from loguru import logger
+from selenium.common.exceptions import NoSuchElementException
+
+from src.aihawk_job_manager import AIHawkJobManager
+from src.job import Job
 
 
 @pytest.fixture

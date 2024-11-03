@@ -1,4 +1,5 @@
 import pytest
+
 from src.job_application_profile import JobApplicationProfile
 
 

@@ -2,25 +2,23 @@ import os
 import re
 import sys
 from pathlib import Path
-import yaml
+
 import click
+import yaml
+from lib_resume_builder_AIHawk import (FacadeManager, Resume, ResumeGenerator,
+                                       StyleManager)
+from loguru import logger
 from selenium import webdriver
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.common.exceptions import WebDriverException
-from lib_resume_builder_AIHawk import (
-    Resume,
-    FacadeManager,
-    ResumeGenerator,
-    StyleManager,
-)
-from src.utils import chrome_browser_options
-from src.llm.llm_manager import GPTAnswerer
+
 from src.aihawk_authenticator import AIHawkAuthenticator
 from src.aihawk_bot_facade import AIHawkBotFacade
 from src.aihawk_job_manager import AIHawkJobManager
 from src.job_application_profile import JobApplicationProfile
-from loguru import logger
+from src.llm.llm_manager import GPTAnswerer
+from src.utils import chrome_browser_options
 
 # Suppress stderr only during specific operations
 original_stderr = sys.stderr

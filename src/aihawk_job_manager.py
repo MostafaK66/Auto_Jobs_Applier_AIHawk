@@ -2,19 +2,19 @@ import json
 import os
 import random
 import time
+import urllib.parse
 from itertools import product
 from pathlib import Path
 
-from inputimeout import inputimeout, TimeoutOccurred
+from inputimeout import TimeoutOccurred, inputimeout
+from loguru import logger
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 
 import src.utils as utils
 from app_config import MINIMUM_WAIT_TIME
-from src.job import Job
 from src.aihawk_easy_applier import AIHawkEasyApplier
-from loguru import logger
-import urllib.parse
+from src.job import Job
 
 
 class EnvironmentKeys:

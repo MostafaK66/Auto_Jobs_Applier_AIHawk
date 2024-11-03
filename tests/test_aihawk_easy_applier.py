@@ -1,5 +1,7 @@
-import pytest
 from unittest import mock
+
+import pytest
+
 from src.aihawk_easy_applier import AIHawkEasyApplier
 
 
